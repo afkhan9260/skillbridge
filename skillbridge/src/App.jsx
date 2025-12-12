@@ -8,14 +8,16 @@ import Contact from './pages/contact'
 import MyProfile from './pages/myprofile'
 import MyAppointments from './pages/MyAppointments'
 import Appointment from './pages/Appointment'
+import Navbar from './components/Navbar'
 
 
 const App = () => {
   return (
     <div className='mx-4 sm:mx-[10%]'>
+    <Navbar />
       <Routes>
       <Route path='/' element={<Home />}/>
-      <Route path= '/' element={<Tutors />}/>
+      <Route path= '/tutors' element={<Tutors />}/>
       <Route path= '/tutors/:speciality' element={<Tutors />}/>
       <Route path= '/login' element={<Login />}/>
       <Route path= '/about' element={<About />}/>
