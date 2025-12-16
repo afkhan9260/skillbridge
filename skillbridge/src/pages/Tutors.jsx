@@ -11,17 +11,17 @@ const Tutors = () => {
 
     const {tutors} = useContext(AppContext);
 
-    const applyFilter = () => {
+    React.useEffect(() => { 
         if(specialty){
-            setFilterTutors(tutors.filter((tutor) => tutor.specialty.toLowerCase() === specialty.toLowerCase()));
+            setFilterTutors(
+                tutors.filter(
+                    tutor => 
+                        tutor.specialty.toLowerCase() === specialty.toLowerCase()));
         } else {
             setFilterTutors(tutors);
         }   
-    }
-    React.useEffect(() => { 
-        applyFilter();
-
     }, [tutors, specialty]);
+
   return (
     <div>
     
