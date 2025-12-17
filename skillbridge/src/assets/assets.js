@@ -15,21 +15,21 @@ import info_icon from './info_icon.svg'
 import upload_icon from './upload_icon.png'
 import stripe_logo from './stripe_logo.png'
 import razorpay_logo from './razorpay_logo.png'
-import doc1 from './doc1.png'
-import doc2 from './doc2.png'
-import doc3 from './doc3.png'
-import doc4 from './doc4.png'
-import doc5 from './doc5.png'
-import doc6 from './doc6.png'
-import doc7 from './doc7.png'
-import doc8 from './doc8.png'
-import doc9 from './doc9.png'
-import doc10 from './doc10.png'
-import doc11 from './doc11.png'
-import doc12 from './doc12.png'
-import doc13 from './doc13.png'
-import doc14 from './doc14.png'
-import doc15 from './doc15.png'
+import tutor1 from './doc1.png'
+import tutor2 from './doc2.png'
+import tutor3 from './doc3.png'
+import tutor4 from './doc4.png'
+import tutor5 from './doc5.png'
+import tutor6 from './doc6.png'
+import tutor7 from './doc7.png'
+import tutor8 from './doc8.png'
+import tutor9 from './doc9.png'
+import tutor10 from './doc10.png'
+import tutor11 from './doc11.png'
+import tutor12 from './doc12.png'
+import tutor13 from './doc13.png'
+import tutor14 from './doc14.png'
+import tutor15 from './doc15.png'
 import Physics from './Physics.png'
 import Quran from './Quran.png'
 import Mathematics from './Math.png'
@@ -87,9 +87,9 @@ export const specialtyData = [
 
 export const tutors = [
     {
-        _id: 'doc1',
+        _id: 'tutor1',
         name: 'Dr. Richard James',
-        image: doc1,
+        image: tutor1,
         specialty: 'Mathematics',
         degree: 'MBBS',
         experience: '4 Years',
@@ -101,9 +101,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc2',
+        _id: 'tutor2',
         name: 'Dr. Emily Larson',
-        image: doc2,
+        image: tutor2,
         specialty: 'Chemistry',
         degree: 'MBBS',
         experience: '3 Years',
@@ -115,9 +115,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc3',
+        _id: 'tutor3',
         name: 'Dr. Sarah Patel',
-        image: doc3,
+        image: tutor3,
         specialty: 'Quran',
         degree: 'MBBS',
         experience: '1 Years',
@@ -129,9 +129,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc4',
+        _id: 'tutor4',
         name: 'Dr. Christopher Lee',
-        image: doc4,
+        image: tutor4,
         specialty: 'Physics',
         degree: 'MBBS',
         experience: '2 Years',
@@ -143,9 +143,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc5',
+        _id: 'tutor5',
         name: 'Dr. Jennifer Garcia',
-        image: doc5,
+        image: tutor5,
         specialty: 'Writing',
         degree: 'MBBS',
         experience: '4 Years',
@@ -157,9 +157,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc6',
+        _id: 'tutor6',
         name: 'Dr. Andrew Williams',
-        image: doc6,
+        image: tutor6,
         specialty: 'Writing',
         degree: 'MBBS',
         experience: '4 Years',
@@ -171,9 +171,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc7',
+        _id: 'tutor7',
         name: 'Dr. Christopher Davis',
-        image: doc7,
+        image: tutor7,
         specialty: 'Mathematics',
         degree: 'MBBS',
         experience: '4 Years',
@@ -185,9 +185,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc8',
+        _id: 'tutor8',
         name: 'Dr. Timothy White',
-        image: doc8,
+        image: tutor8,
         specialty: 'Chemistry',
         degree: 'MBBS',
         experience: '3 Years',
@@ -199,9 +199,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc9',
+        _id: 'tutor9',
         name: 'Dr. Ava Mitchell',
-        image: doc9,
+        image: tutor9,
         specialty: 'Physics',
         degree: 'MBBS',
         experience: '1 Years',
@@ -213,9 +213,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc10',
+        _id: 'tutor10',
         name: 'Dr. Jeffrey King',
-        image: doc10,
+        image: tutor10,
         specialty: 'Writing',
         degree: 'MBBS',
         experience: '2 Years',
@@ -227,9 +227,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc11',
+        _id: 'tutor11',
         name: 'Dr. Zoe Kelly',
-        image: doc11,
+        image: tutor11,
         specialty: 'Quran',
         degree: 'MBBS',
         experience: '4 Years',
@@ -241,9 +241,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc12',
+        _id: 'tutor12',
         name: 'Dr. Patrick Harris',
-        image: doc12,
+        image: tutor12,
         specialty: 'Mathematics',
         degree: 'MBBS',
         experience: '4 Years',
@@ -255,9 +255,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc13',
+        _id: 'tutor13',
         name: 'Dr. Chloe Evans',
-        image: doc13,
+        image: tutor13,
         specialty: 'Chemistry',
         degree: 'MBBS',
         experience: '4 Years',
@@ -269,9 +269,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc14',
+        _id: 'tutor14',
         name: 'Dr. Ryan Martinez',
-        image: doc14,
+        image: tutor14,
         specialty: 'Quran',
         degree: 'MBBS',
         experience: '3 Years',
@@ -283,9 +283,9 @@ export const tutors = [
         }
     },
     {
-        _id: 'doc15',
+        _id: 'tutor15',
         name: 'Dr. Amelia Hill',
-        image: doc15,
+        image: tutor15,
         specialty: 'Biology',
         degree: 'MBBS',
         experience: '1 Years',

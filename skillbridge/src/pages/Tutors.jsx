@@ -28,12 +28,12 @@ const Tutors = () => {
     <p className='text-gray-600'> Browse Tutors by Specialty</p>
     <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
         <div className='flex flex-col gap-4 text-sm text-gray-600'>
-        <p onClick={() => specialty === 'Mathematics' ? navigate('/tutors') : navigate('/tutors/Mathematics') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer`}>Mathematics</p>
-        <p onClick={() => specialty === 'Chemistry' ? navigate('/tutors') : navigate('/tutors/Chemistry') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer`}>Chemistry</p>
-        <p onClick={() => specialty === 'Physics' ? navigate('/tutors') : navigate('/tutors/Physics') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer`}>Physics</p>
-        <p onClick={() => specialty === 'Biology' ? navigate('/tutors') : navigate('/tutors/Biology') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer`}>Biology</p>
-        <p onClick={() => specialty === 'Writing' ? navigate('/tutors') : navigate('/tutors/Writing') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer`}>Writing</p>
-        <p onClick={() => specialty === 'Quran' ? navigate('/tutors') : navigate('/tutors/Quran') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer`}>Quran</p>
+        <p onClick={() => specialty === 'Mathematics' ? navigate('/tutors') : navigate('/tutors/Mathematics') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Mathematics' ? 'bg-blue-100 text-blue-700' : ''}`}>Mathematics</p>
+        <p onClick={() => specialty === 'Chemistry' ? navigate('/tutors') : navigate('/tutors/Chemistry') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Chemistry' ? 'bg-blue-100 text-blue-700' : ''}`}>Chemistry</p>
+        <p onClick={() => specialty === 'Physics' ? navigate('/tutors') : navigate('/tutors/Physics') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Physics' ? 'bg-blue-100 text-blue-700' : ''}`}>Physics</p>
+        <p onClick={() => specialty === 'Biology' ? navigate('/tutors') : navigate('/tutors/Biology') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Biology' ? 'bg-blue-100 text-blue-700' : ''}`}>Biology</p>
+        <p onClick={() => specialty === 'Writing' ? navigate('/tutors') : navigate('/tutors/Writing') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Writing' ? 'bg-blue-100 text-blue-700' : ''}`}>Writing</p>
+        <p onClick={() => specialty === 'Quran' ? navigate('/tutors') : navigate('/tutors/Quran') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Quran' ? 'bg-blue-100 text-blue-700' : ''}`}>Quran</p>
         </div>
         <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
             {
