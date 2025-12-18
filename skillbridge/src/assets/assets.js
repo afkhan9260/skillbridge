@@ -15,21 +15,21 @@ import info_icon from './info_icon.svg'
 import upload_icon from './upload_icon.png'
 import stripe_logo from './stripe_logo.png'
 import razorpay_logo from './razorpay_logo.png'
-import tutor1 from './doc1.png'
-import tutor2 from './doc2.png'
-import tutor3 from './doc3.png'
-import tutor4 from './doc4.png'
-import tutor5 from './doc5.png'
-import tutor6 from './doc6.png'
-import tutor7 from './doc7.png'
-import tutor8 from './doc8.png'
-import tutor9 from './doc9.png'
-import tutor10 from './doc10.png'
-import tutor11 from './doc11.png'
-import tutor12 from './doc12.png'
-import tutor13 from './doc13.png'
-import tutor14 from './doc14.png'
-import tutor15 from './doc15.png'
+import tutor1 from './pic1.jfif'
+import tutor2 from './pic1.jfif'
+import tutor3 from './pic1.jfif'
+import tutor4 from './pic1.jfif'
+import tutor5 from './pic1.jfif'
+import tutor6 from './pic1.jfif'
+import tutor7 from './pic1.jfif'
+import tutor8 from './pic1.jfif'
+import tutor9 from './pic1.jfif'
+import tutor10 from './pic1.jfif'
+import tutor11 from './pic1.jfif'
+import tutor12 from './pic1.jfif'
+import tutor13 from './pic1.jfif'
+import tutor14 from './pic1.jfif'
+import tutor15 from './pic1.jfif'
 import Physics from './Physics.png'
 import Quran from './Quran.png'
 import Mathematics from './Math.png'
@@ -88,12 +88,12 @@ export const specialtyData = [
 export const tutors = [
     {
         _id: 'tutor1',
-        name: 'Dr. Richard James',
+        name: 'Bilal Khan',
         image: tutor1,
         specialty: 'Mathematics',
         degree: 'MBBS',
         experience: '4 Years',
-        about: 'Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.',
+        about: 'Bilal has a strong commitment to delivering comprehensive material, focusing on critical analysis, algebra, and effective problem solving strategies.',
         fees: 50,
         address: {
             line1: '17th Cross, Richmond',
