@@ -3,8 +3,11 @@ import { tutors } from "../assets/assets";
 
 const AppContextProvider = ({ children }) => {
 
+
+  const currencySymbol = '$';
   const value = {
-    tutors,
+    tutors, 
+    currencySymbol
   };
 
   return (

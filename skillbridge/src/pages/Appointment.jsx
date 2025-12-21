@@ -6,18 +6,70 @@ import { assets } from '../assets/assets';
 const Appointment = () => {
 
     const {tutorId} = useParams();
-    const {tutors} = useContext(AppContext);
+    const {tutors, currencySymbol} = useContext(AppContext);
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const [tutorInfo, setTutorInfo] = React.useState(null);
+    const [tutorSlots, setTutorSlots] = React.useState([]);
+    const [slotIndex, setSlotIndex] = React.useState(0);
+    const [slotTime, setSlotTime] = React.useState('');
 
     React.useEffect(() => {
         if (!tutors || tutors.length === 0) return;
+
     const fetchTutorInfo = async() => {
         const tutorInfo = tutors.find((tutor) => tutor._id === tutorId);
         setTutorInfo(tutorInfo);
         console.log(tutorInfo);
     }
-        fetchTutorInfo();
-    },[tutors, tutorId]);
+
+    const getAvailableSlots = async () => 
+    { 
+        setTutorSlots([]);
+        //getting current date
+        let today = new Date();
+        for(let i=0; i<7; i++)
+         {
+            //getting date with index
+            let currentDate = new Date(today);
+            currentDate.setDate(today.getDate() + i);
+            //setting end time of the date with index
+            let endTime = new Date();
+            endTime.setDate(today.getDate() + i);
+            endTime.setHours(21,0,0,0);
+            //setting hours
+            if (today.getDate() === currentDate.getDate())
+            {
+                currentDate.setHours(currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10);
+                currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
+            } else {
+                currentDate.setHours(10);
+                currentDate.setMinutes(0);
+            }
+
+            let timeSlots = [];
+
+            while(currentDate < endTime)
+            {
+                let formattedTime = currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+                timeSlots.push({
+                datetime: new Date(currentDate),
+                time: formattedTime
+            })
+
+            //incrementing time by 30 minutes
+            currentDate.setMinutes(currentDate.getMinutes() + 30);
+            }
+
+            setTutorSlots(prev => ([...prev, timeSlots]));
+         }
+    }
+    getAvailableSlots();
+    fetchTutorInfo();
+
+    },[tutors, tutorId, tutorInfo, tutorSlots]);
+
+    
 
   return tutorInfo && (
     <div>
@@ -40,13 +92,36 @@ const Appointment = () => {
         <div>
        <p className='flex items-center gap-1 text-sm font-medium text-gray-900 mt-3'>
        About <img src={assets.info_icon} alt=""/></p>
-       <p> {tutorInfo.about}</p>
+       <p className='text-sm text-gray-500 max-w-[700px] mt-1'> {tutorInfo.about}</p>
         </div>    
-        
+        <p className='font-medium mt-4'>
+        Appointment Fee: <span>{currencySymbol}{tutorInfo.fees}</span>
+        </p>
         </div>
     </div>
-       
+    {/*----Available Slots----*/}
+    <div className='sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700'>
+        <p>Available Slots</p>
+        <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
+        {
+            tutorSlots.length && tutorSlots.map((item, index) => (
+                <div onClick={() => setSlotIndex(index)} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`} key={index}>
+                 <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
+                 <p>{item[0] && item[0].datetime.getDate()}</p>
+                </div>
+            ))
+        }
+        </div>
+
+        <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
+        {tutorSlots.length && tutorSlots[slotIndex].map((item, index) => (
+            <p onClick={() => setSlotTime(item.time)} className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${item.time === slotTime ? 'bg-blue-500 text-white' : 'bg-gray-200 border border-gray-300'}`} key={index}>
+            {item.time.toLowerCase()}
+            </p>
+        ))}
+        </div>
     
+    </div>
     </div>
   )
 }
