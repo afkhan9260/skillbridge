@@ -120,7 +120,7 @@ const Appointment = () => {
             </p>
         ))}
         </div>
-    
+        <button className='bg-blue-200 text-white text-sm font-light px-14 py-3 rounded-ful my-6'>Book an appointment</button>
     </div>
     </div>
   )
