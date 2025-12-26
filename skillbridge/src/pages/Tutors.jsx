@@ -8,7 +8,7 @@ const Tutors = () => {
     const navigate = useNavigate();
     
     const [filterTutors, setFilterTutors] = useState([]);
-
+    const [showFilter, setShowFilter] = useState(false);
     const {tutors} = useContext(AppContext);
 
     React.useEffect(() => { 
@@ -27,7 +27,8 @@ const Tutors = () => {
     
     <p className='text-gray-600'> Browse Tutors by Specialty</p>
     <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
-        <div className='flex flex-col gap-4 text-sm text-gray-600'>
+        <button className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${showFilter ? 'bg-blue-100 text-blue-700' : ''}`} onClick={()=>setShowFilter(prev => !prev)}>Filters</button>
+        <div className={`flex flex-col gap-4 text-sm text-gray-600 ${showFilter ? 'flex' : 'hidden sm:flex'}`}>
         <p onClick={() => specialty === 'Mathematics' ? navigate('/tutors') : navigate('/tutors/Mathematics') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Mathematics' ? 'bg-blue-100 text-blue-700' : ''}`}>Mathematics</p>
         <p onClick={() => specialty === 'Chemistry' ? navigate('/tutors') : navigate('/tutors/Chemistry') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Chemistry' ? 'bg-blue-100 text-blue-700' : ''}`}>Chemistry</p>
         <p onClick={() => specialty === 'Physics' ? navigate('/tutors') : navigate('/tutors/Physics') } className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-200 rounded transition-all cursor-pointer ${specialty === 'Physics' ? 'bg-blue-100 text-blue-700' : ''}`}>Physics</p>
