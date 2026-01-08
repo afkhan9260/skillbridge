@@ -2,17 +2,18 @@ import validator from 'validator';
 import bycrypt from 'bcrypt';
 import {v2 as cloudinary} from 'cloudinary';
 import tutorModel from '../models/tutorModel.js';
+import jwt from 'jsonwebtoken';
 
 const addTutor = async (req,res) => { 
 
     try{
-
-        const {name, email, password, specialty, about, fees, address}= req.body;
+        
+        const {name, email, password, specialty, about, feePerHour, address}= req.body;
         const image = req.file
 
         //checking data to add tutor
-        if(!name || !email || !password || !specialty || !about || !fees || !address){
-            return res.json({success: false, message: "All fields are required"});
+        if(!name || !email || !password || !specialty || !about || !feePerHour || !address){
+            return res.json({success: false, message: "Some fields are missing"});
         }
 
         //validating email format
@@ -36,11 +37,11 @@ const addTutor = async (req,res) => {
         const tutorData = {
             name,
             email,
-            password: hashedPassword,
+            password:hashedPassword,
             specialty,
             about,
-            fees,
-            address: JSON.parse(address),
+            feePerHour,
+            address:JSON.parse(address),
             image: imageUrl,
             date: Date.now()
         };
@@ -56,5 +57,23 @@ const addTutor = async (req,res) => {
         res.json({success: false, message:error.message});
     }
 }
+//api for admin login
+const loginAdmin = async (req,res) => {
+    try{
+        const {email, password} = req.body;
 
-export {addTutor};
+        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
+        
+            const token = jwt.sign(email+password, process.env.JWT_SECRET);
+            res.json({success:true,token})
+            
+        } else{
+            res.json({success: false, message: "Invalid email or password"});
+        } 
+    }catch(error){
+        console.log(error);
+        res.json({success: false, message:error.message});
+    }
+}
+
+export {addTutor, loginAdmin};

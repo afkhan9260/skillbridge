@@ -8,17 +8,17 @@ const tutorSchema = new mongoose.Schema({
     password: {
         type: String, required: true},
     image: {
-        type: String, required: false},
+        type: String, required: true},
     specialty: {
         type: String, required: true},
     about: {
-        type: String, default: true},
+        type: String, required: true},
     available: {
-        type: Boolean, required: true},
+        type: Boolean, default: true},
     feePerHour: {
         type: Number, required: true},
     address:{
-        type: String, required: true},
+        type: Object, required: true},
     date: {
         type: Number, required: true},
     slots_booked: {
