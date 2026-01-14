@@ -2,22 +2,32 @@ import React from 'react'
 import { assets } from "../assets/assets";
 import { useContext } from 'react'
 import { AdminContext } from '../context/AdminContext'
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
-    const {aToken} = useContext(AdminContext);
+    const {aToken, setAToken} = useContext(AdminContext);
+
+    const navigate = useNavigate();
+
+    const logout = () => {
+        navigate('/')
+        aToken && setAToken('')
+        aToken && localStorage.removeItem('aToken')
+
+    }
 
   return (
     <div className="flex justify-between items-center px-4 sm:px-10 py-3 border-b bg-white ">
-      <div>
+      <div className='flex items-center gap-2 text-xs '>
         <img
-          className="w-50 h-20 object-contain"
+          className="w-50 h-20 object-contain cursor-pointer"
           src={assets.admin_logo}
           alt="Admin Logo"
         ></img>
-        <p>{aToken ? "Admin" : "Tutor"}</p>
+        <p className='border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600'>{aToken ? "Admin" : "Tutor"}</p>
       </div>
-      <button>LogOut</button>
+      <button onClick={logout} className='bg-primary text-white text-sm px-10 py-2 rounded-full '>LogOut</button>
     </div>
   );
 }
