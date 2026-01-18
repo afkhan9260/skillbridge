@@ -4,6 +4,8 @@ import 'dotenv/config';
 import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
 import adminRouter from './routes/adminRoute.js';
+import tutorRouter from './routes/tutorRoute.js';
+import userRouter from './routes/userRoute.js';
 
 // app config
 const app = express();
@@ -15,8 +17,11 @@ connectCloudinary();
 app.use(cors());
 app.use(express.json());
 
+
 // api routes
 app.use('/api/admin', adminRouter);
+app.use('/api/tutor', tutorRouter)
+app.use('/api/user', userRouter);
 
 
 app.get('/', (req, res) => {

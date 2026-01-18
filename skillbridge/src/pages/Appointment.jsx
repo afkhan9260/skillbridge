@@ -16,7 +16,7 @@ const Appointment = () => {
     React.useEffect(() => {
         if (!tutors || tutors.length === 0) return;
 
-    const fetchTutorInfo = async() => {
+    const fetchTutorInfo = () => {
         const tutorInfo = tutors.find((tutor) => tutor._id === tutorId);
         setTutorInfo(tutorInfo);
         console.log(tutorInfo);
@@ -67,7 +67,7 @@ const Appointment = () => {
     getAvailableSlots();
     fetchTutorInfo();
 
-    },[tutors, tutorId, tutorInfo, tutorSlots]);
+    },[tutors, tutorId]);
 
     
 
@@ -85,8 +85,8 @@ const Appointment = () => {
             <img className='w-5' src={assets.verified_icon} alt=""/> 
             </p>
             <div className='flex items-center gap-2 text-sm mt-1 text-gray-600'>
-                <p>Degree: {tutorInfo.degree} - {tutorInfo.specialty}</p>
-                <button className='py-0.5 px-2 border text-xs rounded-full'>{tutorInfo.experience}</button>
+                <p>Specialty: {tutorInfo.specialty}</p>
+                
             </div>
            {/*----About----*/} 
         <div>
@@ -95,7 +95,7 @@ const Appointment = () => {
        <p className='text-sm text-gray-500 max-w-[700px] mt-1'> {tutorInfo.about}</p>
         </div>    
         <p className='font-medium mt-4'>
-        Appointment Fee: <span>{currencySymbol}{tutorInfo.fees}</span>
+        Appointment Fee: <span>{currencySymbol}{tutorInfo.feePerHour}</span>
         </p>
         </div>
     </div>
@@ -120,7 +120,7 @@ const Appointment = () => {
             </p>
         ))}
         </div>
-        <button className='bg-blue-200 text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an appointment</button>
+        <button className='bg-blue-600 text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an appointment</button>
     </div>
     </div>
   )

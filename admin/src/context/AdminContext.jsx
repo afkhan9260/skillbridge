@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useCallback } from "react";
 
 const AdminContext = createContext();
 
@@ -10,7 +11,7 @@ const AdminContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const [tutors, setTutors] = useState([]);
     
-    const getAllTutors = async () => {
+    const getAllTutors = useCallback(async () => {
       console.trace("getAllTutors called");
     try {
 
@@ -26,7 +27,7 @@ const AdminContextProvider = (props) => {
       } catch (error) {
         toast.error(error.message);
       }
-    }
+    },[aToken, backendUrl]);
     
     const changeAvailability = async (tutorId) => {
       
@@ -35,7 +36,7 @@ const AdminContextProvider = (props) => {
         
         if(data.success){
           toast.success(data.message);
-          getAllTutors();
+          await getAllTutors();
         } else{
           toast.error(data.message);
         }

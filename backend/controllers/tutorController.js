@@ -14,4 +14,13 @@ const changeAvailability = async (req, res) => {
     }
 }
 
-export { changeAvailability };
+const tutorList = async (req, res) => {
+    try {
+        const tutors = await tutorModel.find({}).select(['-password', '-email']);
+        res.json({ success: true, tutors });
+    } catch (error) {
+         console.log(error);
+         res.json({ success: false, message: error.message });
+    }
+}
+export { changeAvailability, tutorList };

@@ -11,7 +11,7 @@ const TutorsList = () => {
     if (aToken) {
       getAllTutors();
     }
-  }, [aToken]);
+  }, [aToken, getAllTutors]);
 
   return (
     <div className='m-5 max-h-[90vh] overflow-y-scroll'>
