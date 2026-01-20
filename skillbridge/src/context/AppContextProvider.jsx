@@ -10,6 +10,7 @@ const AppContextProvider = ({ children }) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [tutors, setTutors] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : false);
 
   useEffect(() => {
     let isMounted = true;
@@ -41,7 +42,10 @@ const AppContextProvider = ({ children }) => {
   const value = {
     tutors,
     currencySymbol,
-    backendUrl,
+    token, setToken,
+    backendUrl
+    
+   
   };
 
   return (
