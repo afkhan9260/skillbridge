@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 
 const AppContextProvider = ({ children }) => {
 
-
+  
   const currencySymbol = '$';
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [tutors, setTutors] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : false);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [userData, setUserData] = useState(null)
 
   useEffect(() => {
     let isMounted = true;
@@ -30,21 +31,43 @@ const AppContextProvider = ({ children }) => {
         console.log(error);
         toast.error(error.message);
       }
-    }};
-
+    }
+  };
     getTutorsData();
     return () => {
       isMounted = false;
     };
   }, [backendUrl]);
+  
+ useEffect(() => {
+   const loadUserProfileData = async () => {
+     try {
+       const { data } = await axios.get(`${backendUrl}/api/user/get-profile`, {
+         headers: { token },
+       });
 
+       console.log("User profile loaded:", data.userData);
+
+       if (data.success) {
+         setUserData(data.userData);
+       } else {
+         toast.error(data.message);
+       }
+     } catch (error) {
+       toast.error(error.message);
+       console.log(error);
+     }
+   };
+
+   if (token) loadUserProfileData();
+ }, [token, backendUrl]);
 
   const value = {
     tutors,
     currencySymbol,
     token, setToken,
-    backendUrl
-    
+    backendUrl,
+    userData, setUserData,
    
   };
 
