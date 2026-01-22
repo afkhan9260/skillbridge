@@ -11,31 +11,20 @@ const AppContextProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const getTutorsData = async () => {
-      try {
-        const { data } = await axios.get(`${backendUrl}/api/tutor/list`);
-        if (isMounted) {
-          if (data.success) {
-            setTutors(data.tutors);
-          } else {
-            toast.error(data.message);
-          }
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.log(error);
-          toast.error(error.message);
-        }
+  // Getting Doctors using API
+  const getTutorsData = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + "/api/tutor/list");
+      if (data.success) {
+        setTutors(data.tutors);
+      } else {
+        toast.error(data.message);
       }
-    };
-    getTutorsData();
-    return () => {
-      isMounted = false;
-    };
-  }, [backendUrl]);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
   // Getting User Profile using API
   const loadUserProfileData = async () => {
@@ -56,6 +45,11 @@ const AppContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getTutorsData();
+  }, []);
+
+  useEffect(() => {
     if (token) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       loadUserProfileData(); //async
@@ -64,6 +58,7 @@ const AppContextProvider = ({ children }) => {
 
   const value = {
     tutors,
+    getTutorsData,
     currencySymbol,
     token,
     setToken,
@@ -73,7 +68,11 @@ const AppContextProvider = ({ children }) => {
     loadUserProfileData,
   };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return(
+     <AppContext.Provider value={value}>
+      {children}
+     </AppContext.Provider>
+    )
 };
 
 export default AppContextProvider;
