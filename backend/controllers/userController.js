@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import userModel from "../models/userModel.js";
 import tutorModel from "../models/tutorModel.js";
+import appointmentModel from "../models/appointmentModel.js";
 import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -94,7 +94,7 @@ const getProfile = async (req, res) => {
     res.json({
       success: true,
       message: "Profile fetched successfully",
-      userData: user, 
+      userData: user,
     });
   } catch (error) {
     console.log(error);
@@ -155,65 +155,116 @@ const updateProfile = async (req, res) => {
       message: "Profile updated successfully",
       userData: updatedUser,
     });
-
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-// API to book appointment 
+// API to book appointment
 const bookAppointment = async (req, res) => {
+  try {
+    const { userId, tutorId, slotDate, slotTime } = req.body;
 
-    try {
-      const { userId, tutorId, slotDate, slotTime } = req.body;
+    const tutorData = await tutorModel.findById(tutorId).select("-password");
 
-      const tutorData = await tutorModel.findById(tutorId).select("-password");
+    if (!tutorData.available) {
+      return res.json({ success: false, message: "Tutor is not available" });
+    }
 
-      if (!tutorData.available) {
-        return res.json({ success: false, message: "Tutor is not available" });
-      }
-
-      let slots_booked = tutorData.slots_booked;
-      // checking for slot availability
-      if (slots_booked[slotDate]) {
-        if (slots_booked[slotDate].includes(slotTime)) {
-          return res.json({ success: false, message: "Slot Not Available" });
-        } else {
-          slots_booked[slotDate].push(slotTime);
-        }
+    let slots_booked = tutorData.slots_booked;
+    // checking for slot availability
+    if (slots_booked[slotDate]) {
+      if (slots_booked[slotDate].includes(slotTime)) {
+        return res.json({ success: false, message: "Slot Not Available" });
       } else {
-        slots_booked[slotDate] = [];
         slots_booked[slotDate].push(slotTime);
       }
-
-      const userData = await userModel.findById(userId).select("-password");
-
-      delete tutorData.slots_booked
-
-      const appointmentData ={
-        userId,
-        tutorId,
-        slotDate,
-        slotTime,
-        userData,
-        tutorData,
-        amount: tutorData.feePerHour,
-        date: Date.now(),
-      }
-
-        const newAppointment = new appointmentModel(appointmentData);
-        await newAppointment.save();
-
-        //save new slots data in tutorData
-        await tutorModel.findByIdAndUpdate(tutorId, {slots_booked});
-
-        res.json({ success: true, message: "Appointment booked successfully" });
-
-    } catch (error) {
-         console.log(error);
-         res.json({ success: false, message: error.message });
+    } else {
+      slots_booked[slotDate] = [];
+      slots_booked[slotDate].push(slotTime);
     }
-}
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment };
+    const userData = await userModel.findById(userId).select("-password");
+
+    delete tutorData.slots_booked;
+
+    const appointmentData = {
+      userId,
+      tutorId,
+      slotDate,
+      slotTime,
+      userData,
+      tutorData,
+      amount: tutorData.feePerHour,
+      date: Date.now(),
+    };
+
+    const newAppointment = new appointmentModel(appointmentData);
+    await newAppointment.save();
+
+    //save new slots data in tutorData
+    await tutorModel.findByIdAndUpdate(tutorId, { slots_booked });
+
+    res.json({ success: true, message: "Appointment booked successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to get user appointments for frontend my-appointments page
+const listAppointment = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const appointments = await appointmentModel.find({ userId });
+
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//api to cancel appointment
+const cancelAppointment = async (req, res) => {
+  try {
+    const { userId, appointmentId } = req.body;
+    const appointmentData = await appointmentModel.findById(appointmentId);
+
+    // verify appointment user
+    if (appointmentData.userId !== userId) {
+      return res.json({ success: false, message: "Unauthorized action" });
+    }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      cancelled: true,
+    });
+
+    //releasing tutor slots
+    const { tutorId, slotDate, slotTime } = appointmentData;
+    const tutorData = await tutorModel.findById(tutorId);
+
+    let slots_booked = tutorData.slots_booked;
+    slots_booked[slotDate] = slots_booked[slotDate].filter(
+      (e) => e !== slotTime
+    );
+
+    await tutorModel.findByIdAndUpdate(tutorId, { slots_booked });
+
+    res.json({ success: true, message: "Appointment Cancelled" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  registerUser,
+  loginUser,
+  getProfile,
+  updateProfile,
+  bookAppointment,
+  listAppointment,
+  cancelAppointment,
+};
