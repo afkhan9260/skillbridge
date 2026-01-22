@@ -4,14 +4,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const AppContextProvider = ({ children }) => {
-
-  
-  const currencySymbol = '$';
+  const currencySymbol = "$";
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [tutors, setTutors] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const [userData, setUserData] = useState(null)
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -20,62 +18,62 @@ const AppContextProvider = ({ children }) => {
       try {
         const { data } = await axios.get(`${backendUrl}/api/tutor/list`);
         if (isMounted) {
-        if (data.success) {
-          setTutors(data.tutors);
-        } else {
-          toast.error(data.message);
+          if (data.success) {
+            setTutors(data.tutors);
+          } else {
+            toast.error(data.message);
+          }
         }
-      }
       } catch (error) {
         if (isMounted) {
-        console.log(error);
-        toast.error(error.message);
+          console.log(error);
+          toast.error(error.message);
+        }
       }
-    }
-  };
+    };
     getTutorsData();
     return () => {
       isMounted = false;
     };
   }, [backendUrl]);
-  
- useEffect(() => {
-   const loadUserProfileData = async () => {
-     try {
-       const { data } = await axios.get(`${backendUrl}/api/user/get-profile`, {
-         headers: { token },
-       });
 
-       console.log("User profile loaded:", data.userData);
+  // Getting User Profile using API
+  const loadUserProfileData = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + "/api/user/get-profile", {
+        headers: { token },
+      });
 
-       if (data.success) {
-         setUserData(data.userData);
-       } else {
-         toast.error(data.message);
-       }
-     } catch (error) {
-       toast.error(error.message);
-       console.log(error);
-     }
-   };
+      if (data.success) {
+        setUserData(data.userData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
-   if (token) loadUserProfileData();
- }, [token, backendUrl]);
+  useEffect(() => {
+    if (token) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      loadUserProfileData(); //async
+    }
+  }, [token]);
 
   const value = {
     tutors,
     currencySymbol,
-    token, setToken,
+    token,
+    setToken,
     backendUrl,
-    userData, setUserData,
-   
+    userData,
+    setUserData,
+    loadUserProfileData,
   };
 
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export default AppContextProvider;

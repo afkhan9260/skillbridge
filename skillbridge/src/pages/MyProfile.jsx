@@ -21,7 +21,6 @@ const MyProfile = () => {
       formData.append("phone", userData.phone);
       formData.append("address", JSON.stringify(userData.address));
       formData.append("gender", userData.gender);
-      formData.append("dob", userData.dob);
 
       image && formData.append("image", image);
 
@@ -51,7 +50,7 @@ const MyProfile = () => {
         <label htmlFor="image">
           <div className="inline-block relative cursor-pointer">
             <img
-              className="w-36 rounded opacity-75"
+              className="w-36 rounded"
               src={image ? URL.createObjectURL(image) : userData.image}
               alt=""
             />
@@ -164,22 +163,20 @@ const MyProfile = () => {
           ) : (
             <p className="text-gray-500">{userData.gender}</p>
           )}
-
-          
         </div>
       </div>
       <div className="mt-10">
         {isEdit ? (
           <button
             onClick={updateUserProfileData}
-            className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
+            className="border border-blue-300 px-8 py-2 rounded-full hover:bg-blue-200 hover:text-blue transition-all"
           >
             Save information
           </button>
         ) : (
           <button
             onClick={() => setIsEdit(true)}
-            className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
+            className="border border-blue-500 px-8 py-2 rounded-full hover:bg-blue-200 hover:text-blue transition-all"
           >
             Edit
           </button>
