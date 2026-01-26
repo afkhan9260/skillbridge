@@ -11,12 +11,14 @@ const Appointment = () => {
     useContext(AppContext);
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  const navigate = useNavigate();
+
   const [tutorInfo, setTutorInfo] = useState(null);
   const [tutorSlots, setTutorSlots] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState("");
 
-  const navigate = useNavigate();
+  
 
   const fetchTutorInfo = async () => {
     const tutorInfo = tutors.find((tutor) => tutor._id === tutorId);
@@ -24,6 +26,7 @@ const Appointment = () => {
   };
 
   const getAvailableSlots = async () => {
+    
     setTutorSlots([]);
     //getting current date
     let today = new Date();
@@ -32,6 +35,13 @@ const Appointment = () => {
       //getting date with index
       let currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i);
+      currentDate.setHours(10, 0, 0, 0); // always start at 10:00
+      // if today, start from next available hour
+      if (i === 0) {
+        const now = new Date();
+        if (now.getHours() >= 10) currentDate.setHours(now.getHours() + 1);
+        if (now.getMinutes() > 30) currentDate.setMinutes(30);
+      }
       //setting end time of the date with index
       let endTime = new Date();
       endTime.setDate(today.getDate() + i);
@@ -39,7 +49,7 @@ const Appointment = () => {
       //setting hours
       if (today.getDate() === currentDate.getDate()) {
         currentDate.setHours(
-          currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10
+          currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10,
         );
         currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
       } else {
@@ -55,23 +65,27 @@ const Appointment = () => {
           minute: "2-digit",
         });
 
-        let day = currentDate.getDate()
-        let month = currentDate.getMonth()+1
-        let year = currentDate.getFullYear()
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
 
-        const slotDate = day + "_" + month + "_" + year;
-        const slotTime = formattedTime
+        const slotDate = month + "_" + day + "_" + year;
+        const slotTime = formattedTime;
 
-        const isSlotAvailable = tutorInfo.slots_booked[slotDate] && tutorInfo.slots_booked[slotDate].includes(slotTime) ? false : true
-        
-        if (isSlotAvailable){
+        const isSlotAvailable =
+          tutorInfo.slots_booked[slotDate] &&
+          tutorInfo.slots_booked[slotDate].includes(slotTime)
+            ? false
+            : true;
+
+        if (isSlotAvailable) {
           //add slot to array
           timeSlots.push({
             datetime: new Date(currentDate),
             time: formattedTime,
           });
         }
-        
+
         //incrementing time by 30 minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
@@ -93,7 +107,7 @@ const Appointment = () => {
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
 
-      const slotDate = day + "_" + month + "_" + year;
+      const slotDate = month + "_" + day + "_" + year;
 
       const { data } = await axios.post(
         backendUrl + "/api/user/book-appointment",
@@ -127,6 +141,10 @@ const Appointment = () => {
       getAvailableSlots();
     }
   }, [tutorInfo]);
+
+  useEffect(() => {
+    console.log(tutorSlots);
+  }, [tutorSlots]);
 
   return (
     tutorInfo && (
@@ -168,6 +186,7 @@ const Appointment = () => {
             </p>
           </div>
         </div>
+
         {/*----Available Slots----*/}
         <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
           <p>Available Slots</p>
